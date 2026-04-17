@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discord Community
+    url: https://discord.gg/BGDCFCmMBk
+    about: Join our Discord for help and discussion
+  - name: Wiki
+    url: https://github.com/caelestia-dots/caelestia/wiki
+    about: Check out our wiki for documentation

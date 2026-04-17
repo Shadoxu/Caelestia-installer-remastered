@@ -1,0 +1,159 @@
+# caelestia-meta
+#
+# Maintainer: Soramane <soramane32 at gmail dot com>
+# Packager: caelestia-installer v3.0.0 (standalone, builds from source)
+#
+# NOTE: caelestia-cli and caelestia-shell are NO LONGER listed as depends.
+# They are built from bundled source by caelestia-install.sh (v3.0.0+).
+# This metapackage now only pulls in system-level dependencies.
+#
+# CHANGES vs original PKGBUILD (v2 → v3):
+#   - Removed: caelestia-cli (now built from source)
+#   - Removed: caelestia-shell (now built from source)
+#   - Added: quickshell-git (required to build + run caelestia-shell)
+#   - Added: fuzzel (clipboard/emoji picker)
+#   - Added: geoclue, gammastep (night light)
+#   - Added: grim, slurp (screenshots)
+#   - Added: sweet-cursors-hyprcursor-git (cursor theme)
+#   - Added: gpu-screen-recorder (screen recording)
+#   - Added: dart-sass (Discord theming)
+#   - Added: lm_sensors, ddcutil, brightnessctl (brightness/sensors)
+#   - Added: pipewire, pipewire-pulse, pipewire-alsa (audio stack)
+#   - Added: bluez-utils (mpris-proxy for Bluetooth)
+#   - Added: libnotify (notifications)
+#   - Added: swappy (screenshot annotation)
+#   - Added: libqalculate (calculator)
+#   - Added: micro (text editor)
+#   - Moved: gnome-keyring, polkit-gnome  optdepends → depends
+#   - Moved: thunar, zoxide, direnv        optdepends → depends
+
+pkgname='caelestia-meta'
+pkgver=r183.cf94e7f
+pkgrel=3
+pkgdesc='System dependency metapackage for Caelestia dotfiles (standalone v3)'
+arch=('any')
+url='https://github.com/caelestia-dots/caelestia'
+license=('GPL-3.0-only')
+
+depends=(
+    # ── Shell runtime (build dep — required to run caelestia-shell) ──
+    'quickshell-git'
+
+    # ── Hyprland ecosystem ──
+    'hyprland'
+    'xdg-desktop-portal-hyprland'
+    'xdg-desktop-portal-gtk'
+    'hyprpicker'
+
+    # ── Wayland utilities ──
+    'wl-clipboard'
+    'cliphist'
+    'inotify-tools'
+    'app2unit'
+
+    # ── Audio ──
+    'wireplumber'
+    'pipewire'
+    'pipewire-pulse'
+    'pipewire-alsa'
+    'libpipewire'
+    'bluez-utils'
+    'aubio'
+    'libcava'
+
+    # ── System ──
+    'trash-cli'
+    'lm_sensors'
+    'ddcutil'
+    'brightnessctl'
+
+    # ── Networking ──
+    'networkmanager'
+    'fuzzel'
+
+    # ── Location + night light ──
+    'geoclue'
+    'gammastep'
+
+    # ── Notifications + screenshots ──
+    'libnotify'
+    'grim'
+    'slurp'
+    'swappy'
+
+    # ── Calculator ──
+    'libqalculate'
+
+    # ── Screen recording ──
+    'gpu-screen-recorder'
+
+    # ── Discord theming ──
+    'dart-sass'
+
+    # ── Terminal + shell ──
+    'foot'
+    'fish'
+    'bash'
+
+    # ── CLI tools ──
+    'eza'
+    'fastfetch'
+    'starship'
+    'btop'
+    'jq'
+    'micro'
+    'zoxide'
+    'direnv'
+
+    # ── Theming ──
+    'adw-gtk-theme'
+    'papirus-icon-theme'
+    'qtengine-git'
+    'ttf-jetbrains-mono-nerd'
+    'ttf-material-symbols-variable-git'
+    'sweet-cursors-hyprcursor-git'
+
+    # ── Auth + keyring ──
+    'gnome-keyring'
+    'polkit-gnome'
+
+    # ── File manager ──
+    'thunar'
+
+    # ── Session manager ──
+    'uwsm'
+
+    # ── Qt6 ──
+    'qt6-base'
+    'qt6-declarative'
+
+    # ── Build tools (needed to compile caelestia-shell from source) ──
+    'cmake'
+    'ninja'
+    'clang'
+    'pkg-config'
+
+    # ── Python (needed to install caelestia-cli from source) ──
+    'python'
+    'python-pip'
+)
+
+optdepends=(
+    'spotify: music player'
+    'spicetify-cli: Spotify theming'
+    'spicetify-marketplace-bin: Spicetify marketplace'
+    'code: VSCode editor'
+    'vscodium-bin: VSCodium editor (preferred)'
+    'vscodium-bin-marketplace: VSCodium marketplace'
+    'discord: messaging'
+    'equicord-installer-bin: Discord client mod'
+    'zen-browser-bin: web browser'
+    'todoist-appimage: todo manager'
+    'greetd: login manager (recommended)'
+    'tuigreet: TUI greeter for greetd'
+    'qps: GUI process manager'
+    'lazygit: Git TUI (fish abbr lg)'
+    'pavucontrol: PulseAudio volume control GUI'
+    'github-desktop: GitHub desktop'
+    'papirus-folders: automatic folder color syncing with scheme'
+)

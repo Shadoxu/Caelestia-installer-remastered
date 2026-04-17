@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "caelestia"
+requires-python = ">=3.13"
+dynamic = ["version"]
+dependencies = [
+    "pillow",
+    "materialyoucolor"
+]
+
+[project.scripts]
+caelestia = "caelestia:main"
+
+[tool.hatch.version]
+# hatch-vcs reads version from git tags.
+# When building from a bundled/extracted zip (no git history), it falls back
+# to SETUPTOOLS_SCM_PRETEND_VERSION or the fallback-version below.
+source = "vcs"
+fallback-version = "1.0.6"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/caelestia/_version.py"
+
+[tool.hatch.build.targets.sdist]
+only-include = [
+    "src",
+    "completions",
+    "README.md"
+]
+
+[tool.ruff]
+line-length = 120

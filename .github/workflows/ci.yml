@@ -1,0 +1,106 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  lint-shell:
+    name: Lint shell script
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: Run shellcheck
+        run: |
+          shellcheck caelestia-install.sh
+          shellcheck shell-1.5.1/assets/*.sh || true
+          shellcheck shell-1.5.1/assets/*.fish || true
+
+  validate-installer:
+    name: Validate installer script
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check required directories
+        run: |
+          echo "Checking required directories..."
+          [[ -d "caelestia-main" ]] || exit 1
+          [[ -d "shell-1.5.1" ]] || exit 1
+          [[ -d "cli-1.0.6" ]] || exit 1
+          echo "All required directories present"
+
+      - name: Validate bash syntax
+        run: bash -n caelestia-install.sh && echo "Bash syntax OK"
+
+  test-installer-args:
+    name: Test installer argument parsing
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Test help flag
+        run: |
+          output=$(bash caelestia-install.sh --help 2>&1 || true)
+          echo "$output" | grep -q "Caelestia Installer" && echo "Help flag works"
+
+      - name: Test unknown argument
+        run: |
+          ! bash caelestia-install.sh --unknown-arg 2>/dev/null && echo "Unknown arg rejected"
+
+  build-cli-test:
+    name: Build CLI (test)
+    runs-on: ubuntu-latest
+    if: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build hatchling hatch-vcs
+
+      - name: Build CLI
+        run: |
+          export SETUPTOOLS_SCM_PRETEND_VERSION="1.0.6"
+          python -m build
+
+      - name: List build artifacts
+        run: ls -la dist/
+
+  security-check:
+    name: Security check
+    runs-on: ubuntu-latest
+    if: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
